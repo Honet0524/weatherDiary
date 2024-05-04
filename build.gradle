@@ -1,0 +1,52 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'zerobase'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral() // dependency 들을 다운받아 오는곳. 공개된 사이트: "mavenCentral"
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web' // 모든 시점에서 사용
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	//implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+	compileOnly 'org.projectlombok:lombok' // 컴파일하는 시점에만 사용
+	annotationProcessor 'org.projectlombok:lombok' // 상용구 지원 프로세서(?)
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // test하는 시점에만 사용
+	runtimeOnly 'com.mysql:mysql-connector-j'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+/*
+MySQL 8.0.31 이전버전
+<groupId>mysql</groupId>
+<artifactId>mysql-connector-java</artifactId>
+
+MySQL 8.0.31 이후버전
+<groupId>com.mysql</groupId>
+<artifactId>mysql-connector-j</artifactId>
+
+그러므로
+MySQL 8.0.31 이전버전은 runtimeOnly 'mysql:mysql-connector-java'
+MySQL 8.0.31 이후버전은 runtimeOnly 'com.mysql:mysql-connector-j'
+ */
